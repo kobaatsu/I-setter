@@ -5,6 +5,7 @@ import mkcert from 'vite-plugin-mkcert';
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/I-setter/',
   plugins: [react(), mkcert()],
   test: {
     globals: true,
