@@ -1,4 +1,5 @@
 import { Box, FileInput, Slider, Text, Grid, Button, Group } from '@mantine/core';
+import { useInterval } from '@mantine/hooks';
 import {
   IconUpload,
   IconArrowUp,
@@ -9,6 +10,7 @@ import {
   IconRotate2,
   IconZoomIn,
   IconZoomOut,
+  IconCamera,
 } from '@tabler/icons-react';
 
 interface ControlPanelProps {
@@ -19,8 +21,9 @@ interface ControlPanelProps {
   onPositionChange: (pos: { x: number; y: number }) => void;
   scale: number;
   onScaleChange: (scale: number) => void;
-  rotation: number;
-  onRotationChange: (rot: number) => void;
+  onRotationChange: React.Dispatch<React.SetStateAction<number>>;
+  cameraZoom: number;
+  onCameraZoomChange: (zoom: number) => void;
 }
 
 export const ControlPanel = ({
@@ -31,8 +34,9 @@ export const ControlPanel = ({
   onPositionChange,
   scale,
   onScaleChange,
-  rotation,
   onRotationChange,
+  cameraZoom,
+  onCameraZoomChange,
 }: ControlPanelProps) => {
   const handleFileChange = (file: File | null) => {
     if (file) {
@@ -47,6 +51,9 @@ export const ControlPanel = ({
   const handleMove = (dx: number, dy: number) => {
     onPositionChange({ x: position.x + dx, y: position.y + dy });
   };
+
+  const rotateClockwiseInterval = useInterval(() => onRotationChange((r) => r + 5), 100);
+  const rotateCounterClockwiseInterval = useInterval(() => onRotationChange((r) => r - 5), 100);
 
   return (
     <Box
@@ -78,13 +85,14 @@ export const ControlPanel = ({
       />
 
       <Grid gutter="xs" align="center">
-        {/* 移動 */}
+        {/* 左カラム: 移動・カメラズーム */}
         <Grid.Col span={6}>
           <Text c="white" size="xs" mb={4} ta="center">
             移動
           </Text>
           <Box
             style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}
+            mb="xs"
           >
             <Button size="xs" variant="light" onClick={() => handleMove(0, -moveStep)}>
               <IconArrowUp size={16} />
@@ -101,8 +109,28 @@ export const ControlPanel = ({
               <IconArrowDown size={16} />
             </Button>
           </Box>
+          <Box>
+            <Group justify="space-between" mb={0}>
+              <Text c="white" size="xs">
+                <IconCamera size={14} style={{ verticalAlign: 'middle', marginRight: '4px' }} />
+                カメラズーム
+              </Text>
+              <Text c="dimmed" size="xs">
+                {cameraZoom.toFixed(1)}x
+              </Text>
+            </Group>
+            <Slider
+              value={cameraZoom}
+              onChange={onCameraZoomChange}
+              min={1.0}
+              max={3.0}
+              step={0.1}
+              label={null}
+            />
+          </Box>
         </Grid.Col>
 
+        {/* 右カラム: サイズ・回転・透明度 */}
         <Grid.Col span={6}>
           {/* サイズ */}
           <Box mb="xs">
@@ -138,7 +166,14 @@ export const ControlPanel = ({
                 size="xs"
                 variant="outline"
                 color="gray"
-                onClick={() => onRotationChange(rotation - 5)}
+                style={{ touchAction: 'manipulation' }}
+                onPointerDown={() => rotateCounterClockwiseInterval.start()}
+                onPointerUp={() => {
+                  rotateCounterClockwiseInterval.stop();
+                  onRotationChange((r) => r - 1);
+                }}
+                onPointerLeave={rotateCounterClockwiseInterval.stop}
+                onContextMenu={(e) => e.preventDefault()}
               >
                 <IconRotate2 size={16} />
               </Button>
@@ -146,7 +181,14 @@ export const ControlPanel = ({
                 size="xs"
                 variant="outline"
                 color="gray"
-                onClick={() => onRotationChange(rotation + 5)}
+                style={{ touchAction: 'manipulation' }}
+                onPointerDown={() => rotateClockwiseInterval.start()}
+                onPointerUp={() => {
+                  rotateClockwiseInterval.stop();
+                  onRotationChange((r) => r + 1);
+                }}
+                onPointerLeave={rotateClockwiseInterval.stop}
+                onContextMenu={(e) => e.preventDefault()}
               >
                 <IconRotateClockwise size={16} />
               </Button>

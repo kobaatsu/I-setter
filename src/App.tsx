@@ -11,15 +11,17 @@ function App() {
   const [position, setPosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const [scale, setScale] = useState<number>(1.0);
   const [rotation, setRotation] = useState<number>(0);
+  const [cameraZoom, setCameraZoom] = useState<number>(1.0);
 
   return (
     <Box style={{ position: 'relative', width: '100%', height: '100vh', overflow: 'hidden' }}>
-      <CameraView />
+      <CameraView zoom={cameraZoom} />
       {overlayImageSrc && (
         <OverlayImage
           src={overlayImageSrc}
           opacity={opacity}
           position={position}
+          onPositionChange={setPosition}
           scale={scale}
           rotation={rotation}
         />
@@ -32,8 +34,9 @@ function App() {
         onPositionChange={setPosition}
         scale={scale}
         onScaleChange={setScale}
-        rotation={rotation}
         onRotationChange={setRotation}
+        cameraZoom={cameraZoom}
+        onCameraZoomChange={setCameraZoom}
       />
     </Box>
   );

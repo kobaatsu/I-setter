@@ -10,6 +10,7 @@ describe('OverlayImage Component', () => {
           src="test-image.png"
           opacity={0.5}
           position={{ x: 0, y: 0 }}
+          onPositionChange={() => {}}
           scale={1.0}
           rotation={0}
         />

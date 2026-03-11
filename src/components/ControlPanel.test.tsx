@@ -14,8 +14,9 @@ describe('ControlPanel Component', () => {
           onPositionChange={() => {}}
           scale={1.0}
           onScaleChange={() => {}}
-          rotation={0}
           onRotationChange={() => {}}
+          cameraZoom={1.0}
+          onCameraZoomChange={() => {}}
         />
       </MantineProvider>
     );

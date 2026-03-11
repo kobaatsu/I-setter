@@ -1,7 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { Box, Text } from '@mantine/core';
 
-export const CameraView = () => {
+interface CameraViewProps {
+  zoom?: number;
+}
+
+export const CameraView = ({ zoom = 1.0 }: CameraViewProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -57,6 +61,9 @@ export const CameraView = () => {
           width: '100%',
           height: '100%',
           objectFit: 'cover',
+          transform: `scale(${zoom})`,
+          transformOrigin: 'center center',
+          transition: 'transform 0.1s ease-out',
         }}
       />
     </Box>
