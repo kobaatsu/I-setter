@@ -3,7 +3,6 @@ import { Box } from '@mantine/core';
 import { CameraView } from './components/CameraView';
 import { OverlayImage } from './components/OverlayImage';
 import { ControlPanel } from './components/ControlPanel';
-import './App.css';
 
 function App() {
   const [overlayImageSrc, setOverlayImageSrc] = useState<string | null>(null);
