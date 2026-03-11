@@ -101,6 +101,7 @@ export const ControlPanel = ({
         borderTopRightRadius: '16px',
         userSelect: 'none',
         WebkitUserSelect: 'none',
+        paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 80px)',
       }}
     >
       <Group
