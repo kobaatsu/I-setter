@@ -269,7 +269,7 @@ export const ControlPanel = ({
           </Grid>
 
           {/* 画像 透明度 */}
-          <Box mb="sm">
+          <Box mb="sm" px="md">
             <Group justify="space-between" mb={4}>
               <Text c="white" size="xs">
                 画像透明度
@@ -300,7 +300,7 @@ export const ControlPanel = ({
           />
 
           {/* カメラの操作エリア */}
-          <Box pb="xs">
+          <Box pb="xs" px="md">
             <Group justify="space-between" mb={4}>
               <Text c="white" size="xs">
                 <IconCamera size={14} style={{ verticalAlign: 'middle', marginRight: '4px' }} />
