@@ -20,7 +20,7 @@ describe('ControlPanel Component', () => {
         />
       </MantineProvider>
     );
-    expect(getByText('画像')).toBeInTheDocument();
-    expect(getByText('透明度')).toBeInTheDocument();
+    expect(getByText('画像選択')).toBeInTheDocument();
+    expect(getByText('画像透明度')).toBeInTheDocument();
   });
 });
