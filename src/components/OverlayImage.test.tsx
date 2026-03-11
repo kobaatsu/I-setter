@@ -6,7 +6,13 @@ describe('OverlayImage Component', () => {
   it('renders image with given src and opacity', () => {
     const { getByRole } = render(
       <MantineProvider>
-        <OverlayImage src="test-image.png" opacity={0.5} />
+        <OverlayImage
+          src="test-image.png"
+          opacity={0.5}
+          position={{ x: 0, y: 0 }}
+          scale={1.0}
+          rotation={0}
+        />
       </MantineProvider>
     );
     const imgElement = getByRole('img');

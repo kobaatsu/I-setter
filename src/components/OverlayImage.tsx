@@ -1,17 +1,14 @@
-import { useRef } from 'react';
 import { Box } from '@mantine/core';
-import Moveable from 'react-moveable';
 
 interface OverlayImageProps {
   src: string;
   opacity: number;
+  position: { x: number; y: number };
+  scale: number;
+  rotation: number;
 }
 
-export const OverlayImage = ({ src, opacity }: OverlayImageProps) => {
-  const targetRef = useRef<HTMLImageElement>(null);
-
-  // 初期の配置は translate(0px, 0px) として扱い、中心等にオフセットで配置する
-  // 今回は親Box内で絶対配置させ、Moveableで自由に動かせるようにする。
+export const OverlayImage = ({ src, opacity, position, scale, rotation }: OverlayImageProps) => {
   return (
     <Box
       style={{
@@ -20,43 +17,26 @@ export const OverlayImage = ({ src, opacity }: OverlayImageProps) => {
         left: 0,
         width: '100%',
         height: '100%',
-        pointerEvents: 'none', // Box自体は触れないようにする
+        pointerEvents: 'none',
         zIndex: 10,
+        overflow: 'hidden',
       }}
     >
       <img
-        ref={targetRef}
         src={src}
         alt="overlay"
         style={{
           position: 'absolute',
-          top: '30%',
-          left: '30%',
-          width: '200px', // デフォルトサイズ
+          top: '50%',
+          left: '50%',
           opacity,
-          pointerEvents: 'auto', // 画像自体は触れるようにする
-          transformOrigin: '50% 50%',
+          transformOrigin: 'center center',
+          transform: `translate(calc(-50% + ${position.x}px), calc(-50% + ${position.y}px)) scale(${scale}) rotate(${rotation}deg)`,
+          maxWidth: '80vw',
+          maxHeight: '80vh',
+          objectFit: 'contain',
         }}
-        // react-moveable 用に user-select none などを付与するとよい
         draggable={false}
-      />
-
-      <Moveable
-        target={targetRef}
-        draggable={true}
-        scalable={true}
-        rotatable={true}
-        keepRatio={true} // アスペクト比を維持
-        renderDirections={['nw', 'ne', 'sw', 'se']}
-        onDrag={(e) => {
-          e.target.style.transform = e.transform;
-        }}
-        onScale={(e) => {
-          e.target.style.transform = e.drag.transform;
-        }}
-        onRotate={(e) => {
-          e.target.style.transform = e.drag.transform;
-        }}
       />
     </Box>
   );
