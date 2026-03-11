@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   Box,
   Button,
@@ -17,15 +16,16 @@ import {
   IconArrowRight,
   IconArrowUp,
   IconCamera,
+  IconChevronDown,
+  IconChevronUp,
   IconRotate2,
   IconRotateClockwise,
+  IconTrash,
   IconUpload,
   IconZoomIn,
   IconZoomOut,
-  IconChevronDown,
-  IconChevronUp,
-  IconTrash,
 } from '@tabler/icons-react';
+import { useState } from 'react';
 
 interface ControlPanelProps {
   onImageUpload: (src: string | null) => void;
@@ -101,7 +101,7 @@ export const ControlPanel = ({
         borderTopRightRadius: '16px',
         userSelect: 'none',
         WebkitUserSelect: 'none',
-        paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 80px)',
+        paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 30px)',
       }}
     >
       <Group
