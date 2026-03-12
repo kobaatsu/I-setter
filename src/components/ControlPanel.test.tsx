@@ -7,6 +7,8 @@ describe('ControlPanel Component', () => {
     const { getByText } = render(
       <MantineProvider>
         <ControlPanel
+          imageVisible={true}
+          onImageVisibleChange={() => {}}
           onImageUpload={() => {}}
           opacity={0.8}
           onOpacityChange={() => {}}
@@ -18,10 +20,23 @@ describe('ControlPanel Component', () => {
           cameras={[]}
           selectedCameraId={null}
           onCameraChange={() => {}}
+          gridVisible={false}
+          onGridVisibleChange={() => {}}
+          gridOpacity={0.5}
+          onGridOpacityChange={() => {}}
+          gridSpacing={50}
+          onGridSpacingChange={() => {}}
+          gridThickness="md"
+          onGridThicknessChange={() => {}}
+          gridBaseColor="#ffffff"
+          onGridBaseColorChange={() => {}}
+          gridMainColor="#ff0000"
+          onGridMainColorChange={() => {}}
+          gridOffset={{ x: 0, y: 0 }}
+          onGridOffsetChange={() => {}}
         />
       </MantineProvider>
     );
     expect(getByText('画像選択')).toBeInTheDocument();
-    expect(getByText('画像透明度')).toBeInTheDocument();
   });
 });

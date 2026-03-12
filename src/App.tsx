@@ -1,11 +1,13 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Box, Button, Stack, Text } from '@mantine/core';
 import { IconZoomIn, IconZoomOut } from '@tabler/icons-react';
 import { CameraView } from './components/CameraView';
 import { OverlayImage } from './components/OverlayImage';
 import { ControlPanel } from './components/ControlPanel';
+import { GridOverlay } from './components/GridOverlay';
 
 function App() {
+  const [imageVisible, setImageVisible] = useState(true);
   const [overlayImageSrc, setOverlayImageSrc] = useState<string | null>(null);
   const [opacity, setOpacity] = useState<number>(0.8);
   const [position, setPosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
@@ -14,6 +16,24 @@ function App() {
   const [cameraZoom, setCameraZoom] = useState<number>(1.0);
   const [cameras, setCameras] = useState<MediaDeviceInfo[]>([]);
   const [selectedCameraId, setSelectedCameraId] = useState<string | null>(null);
+
+  // Grid states
+  const [gridVisible, setGridVisible] = useState(false);
+  const [gridOpacity, setGridOpacity] = useState(0.5);
+  const [gridSpacing, setGridSpacing] = useState(2); // 1 to 10 scale
+  const [gridThickness, setGridThickness] = useState<'sm' | 'md' | 'lg'>('md');
+  const [gridBaseColor, setGridBaseColor] = useState('#ffffff');
+  const [gridMainColor, setGridMainColor] = useState('#ff0000');
+  const [gridOffset, setGridOffset] = useState({ x: 0, y: 0 });
+
+  // Cleanup object URL to prevent memory leaks
+  useEffect(() => {
+    return () => {
+      if (overlayImageSrc) {
+        URL.revokeObjectURL(overlayImageSrc);
+      }
+    };
+  }, [overlayImageSrc]);
 
   const handleDevicesFetched = useCallback((devices: MediaDeviceInfo[]) => {
     setCameras(devices);
@@ -30,6 +50,18 @@ function App() {
         deviceId={selectedCameraId}
         onDevicesFetched={handleDevicesFetched}
       />
+
+      <GridOverlay
+        visible={gridVisible}
+        opacity={gridOpacity}
+        spacing={gridSpacing}
+        thickness={gridThickness}
+        baseColor={gridBaseColor}
+        mainColor={gridMainColor}
+        offsetX={gridOffset.x}
+        offsetY={gridOffset.y}
+      />
+
       {/* 独立したカメラズームUI */}
       <Box
         style={{
@@ -69,6 +101,7 @@ function App() {
       </Box>
       {overlayImageSrc && (
         <OverlayImage
+          visible={imageVisible}
           src={overlayImageSrc}
           opacity={opacity}
           position={position}
@@ -78,6 +111,8 @@ function App() {
         />
       )}
       <ControlPanel
+        imageVisible={imageVisible}
+        onImageVisibleChange={setImageVisible}
         onImageUpload={setOverlayImageSrc}
         opacity={opacity}
         onOpacityChange={setOpacity}
@@ -89,6 +124,20 @@ function App() {
         cameras={cameras}
         selectedCameraId={selectedCameraId}
         onCameraChange={setSelectedCameraId}
+        gridVisible={gridVisible}
+        onGridVisibleChange={setGridVisible}
+        gridOpacity={gridOpacity}
+        onGridOpacityChange={setGridOpacity}
+        gridSpacing={gridSpacing}
+        onGridSpacingChange={setGridSpacing}
+        gridThickness={gridThickness}
+        onGridThicknessChange={setGridThickness}
+        gridBaseColor={gridBaseColor}
+        onGridBaseColorChange={setGridBaseColor}
+        gridMainColor={gridMainColor}
+        onGridMainColorChange={setGridMainColor}
+        gridOffset={gridOffset}
+        onGridOffsetChange={setGridOffset}
       />
     </Box>
   );
