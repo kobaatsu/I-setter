@@ -28,7 +28,7 @@ import {
   IconMinus,
   IconPhoto,
   IconPlus,
-  IconRotate2,
+  IconRotate,
   IconRotateClockwise,
   IconTrash,
   IconUpload,
@@ -223,18 +223,6 @@ export const ControlPanel = ({
                 </Button>
               </Group>
 
-              <Divider
-                my="xs"
-                label={
-                  <Text c="gray.5" size="xs">
-                    画像の操作
-                  </Text>
-                }
-                labelPosition="center"
-                color="gray.8"
-              />
-
-              {/* 画像操作エリア (左:サイズ・回転 / 右:移動) */}
               <Grid gutter="xs" align="center" mb="sm">
                 {/* 左: サイズと回転 */}
                 <Grid.Col span={6}>
@@ -285,7 +273,7 @@ export const ControlPanel = ({
                         onPointerCancel={handleRotatePointerLeave}
                         onContextMenu={(e) => e.preventDefault()}
                       >
-                        <IconRotate2 size={16} />
+                        <IconRotate size={16} />
                       </Button>
                       <Button
                         size="xs"
@@ -363,9 +351,6 @@ export const ControlPanel = ({
             </Tabs.Panel>
 
             <Tabs.Panel value="camera" p="md">
-              <Text c="white" size="sm" mb="sm" fw={700}>
-                カメラ設定
-              </Text>
               {cameras.length > 0 ? (
                 <Box mb="xs">
                   <Text c="white" size="xs" mb={4}>
