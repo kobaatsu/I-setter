@@ -1,5 +1,6 @@
 import { Box, Collapse, Group, Tabs, Text } from '@mantine/core';
 import {
+  IconAdjustmentsHorizontal,
   IconCamera,
   IconChevronDown,
   IconChevronUp,
@@ -37,9 +38,12 @@ export const ControlPanel = (props: ControlPanelProps) => {
         onClick={() => setIsOpen(!isOpen)}
         style={{ cursor: 'pointer' }}
       >
-        <Text c="white" size="sm" fw={700}>
-          操作パネル
-        </Text>
+        <Group>
+          <IconAdjustmentsHorizontal color="white" size={18} />
+          <Text c="white" size="sm" fw={700}>
+            設定
+          </Text>
+        </Group>
         {isOpen ? <IconChevronDown color="white" /> : <IconChevronUp color="white" />}
       </Group>
 
@@ -56,11 +60,11 @@ export const ControlPanel = (props: ControlPanelProps) => {
               <Tabs.Tab value="image" c="white" leftSection={<IconPhoto size={14} />}>
                 画像設定
               </Tabs.Tab>
-              <Tabs.Tab value="camera" c="white" leftSection={<IconCamera size={14} />}>
-                カメラ設定
-              </Tabs.Tab>
               <Tabs.Tab value="grid" c="white" leftSection={<IconGridDots size={14} />}>
                 グリッド
+              </Tabs.Tab>
+              <Tabs.Tab value="camera" c="white" leftSection={<IconCamera size={14} />}>
+                カメラ設定
               </Tabs.Tab>
             </Tabs.List>
 
