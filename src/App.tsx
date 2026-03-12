@@ -40,6 +40,9 @@ function App() {
           backgroundColor: 'rgba(0, 0, 0, 0.6)',
           borderRadius: '8px',
           padding: '8px',
+          userSelect: 'none',
+          WebkitUserSelect: 'none',
+          touchAction: 'manipulation',
         }}
       >
         <Stack gap="xs" align="center">
