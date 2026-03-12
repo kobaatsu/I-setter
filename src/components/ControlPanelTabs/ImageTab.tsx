@@ -46,8 +46,8 @@ export const ImageTab = ({
 
   const handleFileChange = (file: File | null) => {
     if (file) {
-      const ObjectUrl = URL.createObjectURL(file);
-      onImageUpload(ObjectUrl);
+      const objectUrl = URL.createObjectURL(file);
+      onImageUpload(objectUrl);
     }
   };
 

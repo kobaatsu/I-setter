@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Box, Button, Stack, Text } from '@mantine/core';
 import { IconZoomIn, IconZoomOut } from '@tabler/icons-react';
 import { CameraView } from './components/CameraView';
@@ -25,6 +25,15 @@ function App() {
   const [gridBaseColor, setGridBaseColor] = useState('#ffffff');
   const [gridMainColor, setGridMainColor] = useState('#ff0000');
   const [gridOffset, setGridOffset] = useState({ x: 0, y: 0 });
+
+  // Cleanup object URL to prevent memory leaks
+  useEffect(() => {
+    return () => {
+      if (overlayImageSrc) {
+        URL.revokeObjectURL(overlayImageSrc);
+      }
+    };
+  }, [overlayImageSrc]);
 
   const handleDevicesFetched = useCallback((devices: MediaDeviceInfo[]) => {
     setCameras(devices);
