@@ -325,6 +325,15 @@ export const ControlPanel = ({
                   onChange={(val) => onCameraChange(val)}
                   placeholder="カメラを選択"
                   comboboxProps={{ withinPortal: true }}
+                  styles={{
+                    option: {
+                      whiteSpace: 'normal',
+                      wordBreak: 'break-word',
+                    },
+                    dropdown: {
+                      maxWidth: '90vw',
+                    },
+                  }}
                 />
               </Box>
             )}
