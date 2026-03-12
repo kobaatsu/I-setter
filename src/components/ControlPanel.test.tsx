@@ -18,6 +18,20 @@ describe('ControlPanel Component', () => {
           cameras={[]}
           selectedCameraId={null}
           onCameraChange={() => {}}
+          gridVisible={false}
+          onGridVisibleChange={() => {}}
+          gridOpacity={0.5}
+          onGridOpacityChange={() => {}}
+          gridSpacing={50}
+          onGridSpacingChange={() => {}}
+          gridThickness="md"
+          onGridThicknessChange={() => {}}
+          gridBaseColor="#ffffff"
+          onGridBaseColorChange={() => {}}
+          gridMainColor="#ff0000"
+          onGridMainColorChange={() => {}}
+          gridOffset={{ x: 0, y: 0 }}
+          onGridOffsetChange={() => {}}
         />
       </MantineProvider>
     );

@@ -4,6 +4,7 @@ import { IconZoomIn, IconZoomOut } from '@tabler/icons-react';
 import { CameraView } from './components/CameraView';
 import { OverlayImage } from './components/OverlayImage';
 import { ControlPanel } from './components/ControlPanel';
+import { GridOverlay } from './components/GridOverlay';
 
 function App() {
   const [overlayImageSrc, setOverlayImageSrc] = useState<string | null>(null);
@@ -14,6 +15,15 @@ function App() {
   const [cameraZoom, setCameraZoom] = useState<number>(1.0);
   const [cameras, setCameras] = useState<MediaDeviceInfo[]>([]);
   const [selectedCameraId, setSelectedCameraId] = useState<string | null>(null);
+
+  // Grid states
+  const [gridVisible, setGridVisible] = useState(false);
+  const [gridOpacity, setGridOpacity] = useState(0.5);
+  const [gridSpacing, setGridSpacing] = useState(40);
+  const [gridThickness, setGridThickness] = useState<'sm' | 'md' | 'lg'>('md');
+  const [gridBaseColor, setGridBaseColor] = useState('#ffffff');
+  const [gridMainColor, setGridMainColor] = useState('#ff0000');
+  const [gridOffset, setGridOffset] = useState({ x: 0, y: 0 });
 
   const handleDevicesFetched = useCallback((devices: MediaDeviceInfo[]) => {
     setCameras(devices);
@@ -30,6 +40,18 @@ function App() {
         deviceId={selectedCameraId}
         onDevicesFetched={handleDevicesFetched}
       />
+
+      <GridOverlay
+        visible={gridVisible}
+        opacity={gridOpacity}
+        spacing={gridSpacing}
+        thickness={gridThickness}
+        baseColor={gridBaseColor}
+        mainColor={gridMainColor}
+        offsetX={gridOffset.x}
+        offsetY={gridOffset.y}
+      />
+
       {/* 独立したカメラズームUI */}
       <Box
         style={{
@@ -89,6 +111,20 @@ function App() {
         cameras={cameras}
         selectedCameraId={selectedCameraId}
         onCameraChange={setSelectedCameraId}
+        gridVisible={gridVisible}
+        onGridVisibleChange={setGridVisible}
+        gridOpacity={gridOpacity}
+        onGridOpacityChange={setGridOpacity}
+        gridSpacing={gridSpacing}
+        onGridSpacingChange={setGridSpacing}
+        gridThickness={gridThickness}
+        onGridThicknessChange={setGridThickness}
+        gridBaseColor={gridBaseColor}
+        onGridBaseColorChange={setGridBaseColor}
+        gridMainColor={gridMainColor}
+        onGridMainColorChange={setGridMainColor}
+        gridOffset={gridOffset}
+        onGridOffsetChange={setGridOffset}
       />
     </Box>
   );
