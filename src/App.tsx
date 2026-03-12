@@ -1,13 +1,14 @@
-import { useCallback, useEffect, useState } from 'react';
 import { Box, Button, Stack, Text } from '@mantine/core';
 import { IconZoomIn, IconZoomOut } from '@tabler/icons-react';
+import { useCallback, useEffect, useState } from 'react';
 import { CameraView } from './components/CameraView';
-import { OverlayImage } from './components/OverlayImage';
 import { ControlPanel } from './components/ControlPanel';
 import { GridOverlay } from './components/GridOverlay';
+import { OverlayImage } from './components/OverlayImage';
+import { PRESET_COLORS } from './constants';
 
 function App() {
-  const [imageVisible, setImageVisible] = useState(true);
+  const [imageVisible, setImageVisible] = useState(false);
   const [overlayImageSrc, setOverlayImageSrc] = useState<string | null>(null);
   const [opacity, setOpacity] = useState<number>(0.8);
   const [position, setPosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
@@ -22,8 +23,8 @@ function App() {
   const [gridOpacity, setGridOpacity] = useState(0.5);
   const [gridSpacing, setGridSpacing] = useState(2); // 1 to 10 scale
   const [gridThickness, setGridThickness] = useState<'sm' | 'md' | 'lg'>('md');
-  const [gridBaseColor, setGridBaseColor] = useState('#ffffff');
-  const [gridMainColor, setGridMainColor] = useState('#ff0000');
+  const [gridBaseColor, setGridBaseColor] = useState(PRESET_COLORS[0]);
+  const [gridMainColor, setGridMainColor] = useState(PRESET_COLORS[2]);
   const [gridOffset, setGridOffset] = useState({ x: 0, y: 0 });
 
   // Cleanup object URL to prevent memory leaks
