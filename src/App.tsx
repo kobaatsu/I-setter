@@ -19,7 +19,7 @@ function App() {
   // Grid states
   const [gridVisible, setGridVisible] = useState(false);
   const [gridOpacity, setGridOpacity] = useState(0.5);
-  const [gridSpacing, setGridSpacing] = useState(40);
+  const [gridSpacing, setGridSpacing] = useState(2); // 1 to 10 scale
   const [gridThickness, setGridThickness] = useState<'sm' | 'md' | 'lg'>('md');
   const [gridBaseColor, setGridBaseColor] = useState('#ffffff');
   const [gridMainColor, setGridMainColor] = useState('#ff0000');

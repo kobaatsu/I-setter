@@ -1,4 +1,5 @@
 import {
+  ActionIcon,
   Box,
   Button,
   Collapse,
@@ -24,7 +25,9 @@ import {
   IconChevronDown,
   IconChevronUp,
   IconGridDots,
+  IconMinus,
   IconPhoto,
+  IconPlus,
   IconRotate2,
   IconRotateClockwise,
   IconTrash,
@@ -180,19 +183,22 @@ export const ControlPanel = ({
             overflowX: 'hidden',
           }}
         >
-          <Tabs defaultValue="image" variant="default" color="teal">
-            <Tabs.List grow>
-              <Tabs.Tab value="image" leftSection={<IconPhoto size={14} />}>
-                画像とカメラ
+          <Tabs variant="pills" defaultValue="image" color="dark">
+            <Tabs.List grow p="xs">
+              <Tabs.Tab value="image" c="white" leftSection={<IconPhoto size={14} />}>
+                画像設定
               </Tabs.Tab>
-              <Tabs.Tab value="grid" leftSection={<IconGridDots size={14} />}>
+              <Tabs.Tab value="camera" c="white" leftSection={<IconCamera size={14} />}>
+                カメラ設定
+              </Tabs.Tab>
+              <Tabs.Tab value="grid" c="white" leftSection={<IconGridDots size={14} />}>
                 グリッド
               </Tabs.Tab>
             </Tabs.List>
 
             <Tabs.Panel value="image" p="md">
               {/* 画像アップロード・クリア */}
-              <Group mb="xs">
+              <Group mb="xs" justify="center">
                 <FileButton onChange={handleFileChange} accept="image/png,image/jpeg,image/webp">
                   {(props) => (
                     <Button
@@ -228,43 +234,13 @@ export const ControlPanel = ({
                 color="gray.8"
               />
 
-              {/* 画像操作エリア */}
+              {/* 画像操作エリア (左:サイズ・回転 / 右:移動) */}
               <Grid gutter="xs" align="center" mb="sm">
-                {/* 移動 */}
-                <Grid.Col span={6}>
-                  <Text c="white" size="xs" mb={8} ta="center">
-                    移動
-                  </Text>
-                  <Box
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      gap: '4px',
-                    }}
-                  >
-                    <Button size="xs" variant="light" onClick={() => handleMove(0, -moveStep)}>
-                      <IconArrowUp size={16} />
-                    </Button>
-                    <Group gap="4px">
-                      <Button size="xs" variant="light" onClick={() => handleMove(-moveStep, 0)}>
-                        <IconArrowLeft size={16} />
-                      </Button>
-                      <Button size="xs" variant="light" onClick={() => handleMove(moveStep, 0)}>
-                        <IconArrowRight size={16} />
-                      </Button>
-                    </Group>
-                    <Button size="xs" variant="light" onClick={() => handleMove(0, moveStep)}>
-                      <IconArrowDown size={16} />
-                    </Button>
-                  </Box>
-                </Grid.Col>
-
-                {/* サイズと回転 */}
+                {/* 左: サイズと回転 */}
                 <Grid.Col span={6}>
                   {/* サイズ */}
                   <Box mb="sm">
-                    <Text c="white" size="xs" mb={4}>
+                    <Text c="white" size="xs" mb={4} ta="center">
                       サイズ
                     </Text>
                     <Group grow gap="xs">
@@ -288,7 +264,7 @@ export const ControlPanel = ({
                   </Box>
                   {/* 回転 */}
                   <Box>
-                    <Text c="white" size="xs" mb={4}>
+                    <Text c="white" size="xs" mb={4} ta="center">
                       回転
                     </Text>
                     <Group grow gap="xs">
@@ -333,10 +309,40 @@ export const ControlPanel = ({
                     </Group>
                   </Box>
                 </Grid.Col>
+
+                {/* 右: 移動 */}
+                <Grid.Col span={6}>
+                  <Text c="white" size="xs" mb={8} ta="center">
+                    移動
+                  </Text>
+                  <Box
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      gap: '4px',
+                    }}
+                  >
+                    <Button size="xs" variant="light" onClick={() => handleMove(0, -moveStep)}>
+                      <IconArrowUp size={16} />
+                    </Button>
+                    <Group gap="4px">
+                      <Button size="xs" variant="light" onClick={() => handleMove(-moveStep, 0)}>
+                        <IconArrowLeft size={16} />
+                      </Button>
+                      <Button size="xs" variant="light" onClick={() => handleMove(moveStep, 0)}>
+                        <IconArrowRight size={16} />
+                      </Button>
+                    </Group>
+                    <Button size="xs" variant="light" onClick={() => handleMove(0, moveStep)}>
+                      <IconArrowDown size={16} />
+                    </Button>
+                  </Box>
+                </Grid.Col>
               </Grid>
 
               {/* 画像 透明度 */}
-              <Box mb="sm">
+              <Box mb="xs">
                 <Group justify="space-between" mb={4}>
                   <Text c="white" size="xs">
                     画像透明度
@@ -354,27 +360,20 @@ export const ControlPanel = ({
                   label={null}
                 />
               </Box>
+            </Tabs.Panel>
 
-              <Divider
-                my="xs"
-                label={
-                  <Text c="gray.5" size="xs">
-                    カメラの操作
-                  </Text>
-                }
-                labelPosition="center"
-                color="gray.8"
-              />
-
-              {/* カメラの操作エリア */}
-              {cameras.length > 0 && (
+            <Tabs.Panel value="camera" p="md">
+              <Text c="white" size="sm" mb="sm" fw={700}>
+                カメラ設定
+              </Text>
+              {cameras.length > 0 ? (
                 <Box mb="xs">
                   <Text c="white" size="xs" mb={4}>
                     <IconCamera size={14} style={{ verticalAlign: 'middle', marginRight: '4px' }} />
                     使用するカメラ
                   </Text>
                   <NativeSelect
-                    size="xs"
+                    size="sm"
                     data={[
                       { value: '', label: 'スマートフォンにおまかせ' },
                       ...cameras.map((c) => ({
@@ -385,7 +384,14 @@ export const ControlPanel = ({
                     value={selectedCameraId || ''}
                     onChange={(e) => onCameraChange(e.currentTarget.value || null)}
                   />
+                  <Text c="dimmed" size="xs" mt="xs">
+                    複数のレンズを持つ端末で自動切り替えを防ぎたい場合、特定のカメラを指定できます。
+                  </Text>
                 </Box>
+              ) : (
+                <Text c="dimmed" size="xs">
+                  カメラの取得に失敗したか、利用可能なカメラが検出されませんでした。
+                </Text>
               )}
             </Tabs.Panel>
 
@@ -409,7 +415,8 @@ export const ControlPanel = ({
                   pointerEvents: gridVisible ? 'auto' : 'none',
                 }}
               >
-                <Grid gutter="md">
+                <Grid gutter="xs">
+                  {/* 左: 設定 */}
                   <Grid.Col span={6}>
                     {/* 不透明度 */}
                     <Box mb="sm">
@@ -431,24 +438,34 @@ export const ControlPanel = ({
                       />
                     </Box>
 
-                    {/* 間隔 */}
+                    {/* 間隔 (相対値 1-10) */}
                     <Box mb="sm">
-                      <Group justify="space-between" mb={4}>
-                        <Text c="white" size="xs">
-                          間隔
+                      <Text c="white" size="xs" mb={4}>
+                        間隔
+                      </Text>
+                      <Group gap="xs" align="center" justify="space-between" wrap="nowrap">
+                        <ActionIcon
+                          size="md"
+                          variant="outline"
+                          color="gray"
+                          onClick={() => onGridSpacingChange(Math.max(1, gridSpacing - 1))}
+                          disabled={gridSpacing <= 1}
+                        >
+                          <IconMinus size={16} />
+                        </ActionIcon>
+                        <Text c="white" size="sm" style={{ width: '20px', textAlign: 'center' }}>
+                          {gridSpacing}
                         </Text>
-                        <Text c="dimmed" size="xs">
-                          {gridSpacing}px
-                        </Text>
+                        <ActionIcon
+                          size="md"
+                          variant="outline"
+                          color="gray"
+                          onClick={() => onGridSpacingChange(Math.min(10, gridSpacing + 1))}
+                          disabled={gridSpacing >= 10}
+                        >
+                          <IconPlus size={16} />
+                        </ActionIcon>
                       </Group>
-                      <Slider
-                        value={gridSpacing}
-                        onChange={onGridSpacingChange}
-                        min={10}
-                        max={100}
-                        step={5}
-                        label={null}
-                      />
                     </Box>
 
                     {/* 太さ */}
@@ -470,6 +487,7 @@ export const ControlPanel = ({
                     </Box>
                   </Grid.Col>
 
+                  {/* 右: 移動 */}
                   <Grid.Col span={6}>
                     {/* 主線(中心)の位置移動 */}
                     <Text c="white" size="xs" mb={8} ta="center">
@@ -528,8 +546,8 @@ export const ControlPanel = ({
                   </Grid.Col>
                 </Grid>
 
-                {/* カラー選択 */}
-                <Box mb="sm" mt="md">
+                {/* カラー選択 (下部) */}
+                <Box mb="sm" mt="xs">
                   <Text c="white" size="xs" mb={4}>
                     グリッドの線色
                   </Text>

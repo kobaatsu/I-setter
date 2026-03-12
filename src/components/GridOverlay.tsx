@@ -3,7 +3,7 @@ import { Box } from '@mantine/core';
 interface GridOverlayProps {
   visible: boolean;
   opacity: number;
-  spacing: number;
+  spacing: number; // 1 to 10
   thickness: 'sm' | 'md' | 'lg';
   baseColor: string;
   mainColor: string;
@@ -38,11 +38,14 @@ export const GridOverlay = ({
 
   const strokeWidth = getStrokeWidth(thickness);
 
-  // Create a pattern for the 5x5 sub-grid
-  const patternSize = spacing * 5;
+  // 外部からの spacing は 1〜10。 ピクセル単位への変換（1=5px）で最小 5px 〜 最大 50px
+  const actualSpacing = spacing * 5;
+  const largeSpacing = actualSpacing * 5;
+  const largeStroke = strokeWidth * 1.5;
 
   return (
     <Box
+      data-testid="grid-overlay"
       style={{
         position: 'absolute',
         top: 0,
@@ -50,67 +53,56 @@ export const GridOverlay = ({
         width: '100%',
         height: '100%',
         pointerEvents: 'none',
-        zIndex: 15, // between Camera (10) and OverlayImage (20) / ControlPanel
+        zIndex: 15,
         opacity,
       }}
     >
-      <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          {/* Base Grid (1x1) */}
-          <pattern
-            id="smallGrid"
-            width={spacing}
-            height={spacing}
-            patternUnits="userSpaceOnUse"
-            patternTransform={`translate(${offsetX % spacing}, ${offsetY % spacing})`}
-          >
-            <path
-              d={`M ${spacing} 0 L 0 0 0 ${spacing}`}
-              fill="none"
-              stroke={baseColor}
-              strokeWidth={strokeWidth}
-              opacity={0.5}
-            />
-          </pattern>
-          {/* Main Grid (5x5) */}
-          <pattern
-            id="largeGrid"
-            width={patternSize}
-            height={patternSize}
-            patternUnits="userSpaceOnUse"
-            patternTransform={`translate(${offsetX % patternSize}, ${offsetY % patternSize})`}
-          >
-            <rect width={patternSize} height={patternSize} fill="url(#smallGrid)" />
-            <path
-              d={`M ${patternSize} 0 L 0 0 0 ${patternSize}`}
-              fill="none"
-              stroke={baseColor}
-              strokeWidth={strokeWidth * 1.5}
-              opacity={1}
-            />
-          </pattern>
-        </defs>
+      {/* Pattern Background */}
+      <Box
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          opacity: 0.5,
+          backgroundImage: `
+            linear-gradient(${baseColor} ${largeStroke}px, transparent ${largeStroke}px),
+            linear-gradient(90deg, ${baseColor} ${largeStroke}px, transparent ${largeStroke}px),
+            linear-gradient(${baseColor} ${strokeWidth}px, transparent ${strokeWidth}px),
+            linear-gradient(90deg, ${baseColor} ${strokeWidth}px, transparent ${strokeWidth}px)
+          `,
+          backgroundSize: `${largeSpacing}px ${largeSpacing}px, ${largeSpacing}px ${largeSpacing}px, ${actualSpacing}px ${actualSpacing}px, ${actualSpacing}px ${actualSpacing}px`,
+          backgroundPosition: `
+            calc(50% + ${offsetX}px - ${largeStroke / 2}px) calc(50% + ${offsetY}px - ${largeStroke / 2}px),
+            calc(50% + ${offsetX}px - ${largeStroke / 2}px) calc(50% + ${offsetY}px - ${largeStroke / 2}px),
+            calc(50% + ${offsetX}px - ${strokeWidth / 2}px) calc(50% + ${offsetY}px - ${strokeWidth / 2}px),
+            calc(50% + ${offsetX}px - ${strokeWidth / 2}px) calc(50% + ${offsetY}px - ${strokeWidth / 2}px)
+          `,
+        }}
+      />
 
-        <rect width="100%" height="100%" fill="url(#largeGrid)" />
-
-        {/* Main Axes (Center Lines with offset) */}
-        <line
-          x1="0"
-          y1={`calc(50% + ${offsetY}px)`}
-          x2="100%"
-          y2={`calc(50% + ${offsetY}px)`}
-          stroke={mainColor}
-          strokeWidth={strokeWidth * 2}
-        />
-        <line
-          x1={`calc(50% + ${offsetX}px)`}
-          y1="0"
-          x2={`calc(50% + ${offsetX}px)`}
-          y2="100%"
-          stroke={mainColor}
-          strokeWidth={strokeWidth * 2}
-        />
-      </svg>
+      {/* Main Axes (Center Lines with offset) */}
+      <Box
+        style={{
+          position: 'absolute',
+          top: `calc(50% + ${offsetY}px - ${strokeWidth}px)`,
+          left: 0,
+          width: '100%',
+          height: `${strokeWidth * 2}px`,
+          backgroundColor: mainColor,
+        }}
+      />
+      <Box
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: `calc(50% + ${offsetX}px - ${strokeWidth}px)`,
+          width: `${strokeWidth * 2}px`,
+          height: '100%',
+          backgroundColor: mainColor,
+        }}
+      />
     </Box>
   );
 };

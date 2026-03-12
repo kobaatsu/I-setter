@@ -4,7 +4,7 @@ import { MantineProvider } from '@mantine/core';
 
 describe('GridOverlay Component', () => {
   it('renders correctly when visible', () => {
-    const { container } = render(
+    const { getByTestId } = render(
       <MantineProvider>
         <GridOverlay
           visible={true}
@@ -18,11 +18,11 @@ describe('GridOverlay Component', () => {
         />
       </MantineProvider>
     );
-    expect(container.querySelector('svg')).toBeInTheDocument();
+    expect(getByTestId('grid-overlay')).toBeInTheDocument();
   });
 
   it('does not render when hidden', () => {
-    const { container } = render(
+    const { queryByTestId } = render(
       <MantineProvider>
         <GridOverlay
           visible={false}
@@ -36,6 +36,6 @@ describe('GridOverlay Component', () => {
         />
       </MantineProvider>
     );
-    expect(container.querySelector('svg')).not.toBeInTheDocument();
+    expect(queryByTestId('grid-overlay')).not.toBeInTheDocument();
   });
 });
