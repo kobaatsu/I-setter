@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react';
-import { Box } from '@mantine/core';
+import { Box, Button, Stack, Text } from '@mantine/core';
+import { IconZoomIn, IconZoomOut } from '@tabler/icons-react';
 import { CameraView } from './components/CameraView';
 import { OverlayImage } from './components/OverlayImage';
 import { ControlPanel } from './components/ControlPanel';
@@ -18,6 +19,10 @@ function App() {
     setCameras(devices);
   }, []);
 
+  const handleZoomChange = (delta: number) => {
+    setCameraZoom((prev) => Math.min(Math.max(1.0, prev + delta), 15.0));
+  };
+
   return (
     <Box style={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden' }}>
       <CameraView
@@ -25,6 +30,40 @@ function App() {
         deviceId={selectedCameraId}
         onDevicesFetched={handleDevicesFetched}
       />
+      {/* 独立したカメラズームUI */}
+      <Box
+        style={{
+          position: 'absolute',
+          top: 'env(safe-area-inset-top, 16px)',
+          right: '16px',
+          zIndex: 30,
+          backgroundColor: 'rgba(0, 0, 0, 0.6)',
+          borderRadius: '8px',
+          padding: '8px',
+        }}
+      >
+        <Stack gap="xs" align="center">
+          <Text c="white" size="xs" fw={700}>
+            {cameraZoom.toFixed(1)}x
+          </Text>
+          <Button
+            size="compact-md"
+            variant="filled"
+            color="dark"
+            onClick={() => handleZoomChange(0.5)}
+          >
+            <IconZoomIn size={18} />
+          </Button>
+          <Button
+            size="compact-md"
+            variant="filled"
+            color="dark"
+            onClick={() => handleZoomChange(-0.5)}
+          >
+            <IconZoomOut size={18} />
+          </Button>
+        </Stack>
+      </Box>
       {overlayImageSrc && (
         <OverlayImage
           src={overlayImageSrc}
@@ -44,8 +83,6 @@ function App() {
         scale={scale}
         onScaleChange={setScale}
         onRotationChange={setRotation}
-        cameraZoom={cameraZoom}
-        onCameraZoomChange={setCameraZoom}
         cameras={cameras}
         selectedCameraId={selectedCameraId}
         onCameraChange={setSelectedCameraId}
