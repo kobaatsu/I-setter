@@ -82,15 +82,6 @@ export const ControlPanel = (props: ControlPanelProps) => {
                 onRotationChange={props.onRotationChange}
               />
             </Tabs.Panel>
-
-            <Tabs.Panel value="camera" p="md">
-              <CameraTab
-                cameras={props.cameras}
-                selectedCameraId={props.selectedCameraId}
-                onCameraChange={props.onCameraChange}
-              />
-            </Tabs.Panel>
-
             <Tabs.Panel value="grid" p="md">
               <GridTab
                 gridVisible={props.gridVisible}
@@ -107,6 +98,13 @@ export const ControlPanel = (props: ControlPanelProps) => {
                 onGridMainColorChange={props.onGridMainColorChange}
                 gridOffset={props.gridOffset}
                 onGridOffsetChange={props.onGridOffsetChange}
+              />
+            </Tabs.Panel>
+            <Tabs.Panel value="camera" p="md">
+              <CameraTab
+                cameras={props.cameras}
+                selectedCameraId={props.selectedCameraId}
+                onCameraChange={props.onCameraChange}
               />
             </Tabs.Panel>
           </Tabs>
