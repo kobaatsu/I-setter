@@ -7,6 +7,7 @@ import { ControlPanel } from './components/ControlPanel';
 import { GridOverlay } from './components/GridOverlay';
 
 function App() {
+  const [imageVisible, setImageVisible] = useState(true);
   const [overlayImageSrc, setOverlayImageSrc] = useState<string | null>(null);
   const [opacity, setOpacity] = useState<number>(0.8);
   const [position, setPosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
@@ -89,7 +90,7 @@ function App() {
           </Button>
         </Stack>
       </Box>
-      {overlayImageSrc && (
+      {imageVisible && overlayImageSrc && (
         <OverlayImage
           src={overlayImageSrc}
           opacity={opacity}
@@ -100,6 +101,8 @@ function App() {
         />
       )}
       <ControlPanel
+        imageVisible={imageVisible}
+        onImageVisibleChange={setImageVisible}
         onImageUpload={setOverlayImageSrc}
         opacity={opacity}
         onOpacityChange={setOpacity}

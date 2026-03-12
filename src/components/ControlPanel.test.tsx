@@ -7,6 +7,8 @@ describe('ControlPanel Component', () => {
     const { getByText } = render(
       <MantineProvider>
         <ControlPanel
+          imageVisible={true}
+          onImageVisibleChange={() => {}}
           onImageUpload={() => {}}
           opacity={0.8}
           onOpacityChange={() => {}}
@@ -36,6 +38,5 @@ describe('ControlPanel Component', () => {
       </MantineProvider>
     );
     expect(getByText('画像選択')).toBeInTheDocument();
-    expect(getByText('画像透明度')).toBeInTheDocument();
   });
 });

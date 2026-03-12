@@ -72,6 +72,9 @@ export const OverlayImage = ({
           objectFit: 'contain',
           pointerEvents: 'auto',
           touchAction: 'none',
+          userSelect: 'none',
+          WebkitUserSelect: 'none',
+          WebkitTouchCallout: 'none',
         }}
         draggable={false}
       />
