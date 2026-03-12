@@ -6,7 +6,7 @@ import {
   FileButton,
   Grid,
   Group,
-  Select,
+  NativeSelect,
   Slider,
   Text,
 } from '@mantine/core';
@@ -315,25 +315,17 @@ export const ControlPanel = ({
                   <IconCamera size={14} style={{ verticalAlign: 'middle', marginRight: '4px' }} />
                   使用するカメラ
                 </Text>
-                <Select
+                <NativeSelect
                   size="xs"
-                  data={cameras.map((c) => ({
-                    value: c.deviceId,
-                    label: c.label || 'Unknown Camera',
-                  }))}
+                  data={[
+                    { value: '', label: 'スマートフォンにおまかせ' },
+                    ...cameras.map((c) => ({
+                      value: c.deviceId,
+                      label: c.label || 'Unknown Camera',
+                    })),
+                  ]}
                   value={selectedCameraId || ''}
-                  onChange={(val) => onCameraChange(val)}
-                  placeholder="カメラを選択"
-                  comboboxProps={{ withinPortal: true }}
-                  styles={{
-                    option: {
-                      whiteSpace: 'normal',
-                      wordBreak: 'break-word',
-                    },
-                    dropdown: {
-                      maxWidth: '90vw',
-                    },
-                  }}
+                  onChange={(e) => onCameraChange(e.currentTarget.value || null)}
                 />
               </Box>
             )}
