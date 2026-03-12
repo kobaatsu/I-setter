@@ -130,6 +130,7 @@ export const ControlPanel = ({
           style={{
             maxHeight: '50vh',
             overflowY: 'auto',
+            overflowX: 'hidden',
           }}
         >
           {/* 画像アップロード・クリア */}
