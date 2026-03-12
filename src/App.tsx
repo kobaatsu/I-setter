@@ -90,8 +90,9 @@ function App() {
           </Button>
         </Stack>
       </Box>
-      {imageVisible && overlayImageSrc && (
+      {overlayImageSrc && (
         <OverlayImage
+          visible={imageVisible}
           src={overlayImageSrc}
           opacity={opacity}
           position={position}

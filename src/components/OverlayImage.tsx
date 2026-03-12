@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { Box } from '@mantine/core';
 
 interface OverlayImageProps {
+  visible: boolean;
   src: string;
   opacity: number;
   position: { x: number; y: number };
@@ -11,6 +12,7 @@ interface OverlayImageProps {
 }
 
 export const OverlayImage = ({
+  visible,
   src,
   opacity,
   position,
@@ -20,6 +22,8 @@ export const OverlayImage = ({
 }: OverlayImageProps) => {
   const dragging = useRef(false);
   const lastPos = useRef({ x: 0, y: 0 });
+
+  if (!visible) return null;
 
   const handlePointerDown = (e: React.PointerEvent<HTMLImageElement>) => {
     e.currentTarget.setPointerCapture(e.pointerId);

@@ -74,10 +74,10 @@ export const GridOverlay = ({
           `,
           backgroundSize: `${largeSpacing}px ${largeSpacing}px, ${largeSpacing}px ${largeSpacing}px, ${actualSpacing}px ${actualSpacing}px, ${actualSpacing}px ${actualSpacing}px`,
           backgroundPosition: `
-            calc(50% + ${offsetX}px - ${largeStroke / 2}px) calc(50% + ${offsetY}px - ${largeStroke / 2}px),
-            calc(50% + ${offsetX}px - ${largeStroke / 2}px) calc(50% + ${offsetY}px - ${largeStroke / 2}px),
-            calc(50% + ${offsetX}px - ${strokeWidth / 2}px) calc(50% + ${offsetY}px - ${strokeWidth / 2}px),
-            calc(50% + ${offsetX}px - ${strokeWidth / 2}px) calc(50% + ${offsetY}px - ${strokeWidth / 2}px)
+            calc(50% + ${offsetX}px - ${largeStroke / 2}px - ${actualSpacing * 2.5}px) calc(50% + ${offsetY}px - ${largeStroke / 2}px - ${actualSpacing * 2.5}px),
+            calc(50% + ${offsetX}px - ${largeStroke / 2}px - ${actualSpacing * 2.5}px) calc(50% + ${offsetY}px - ${largeStroke / 2}px - ${actualSpacing * 2.5}px),
+            calc(50% + ${offsetX}px - ${strokeWidth / 2}px - ${actualSpacing * 2.5}px) calc(50% + ${offsetY}px - ${strokeWidth / 2}px - ${actualSpacing * 2.5}px),
+            calc(50% + ${offsetX}px - ${strokeWidth / 2}px - ${actualSpacing * 2.5}px) calc(50% + ${offsetY}px - ${strokeWidth / 2}px - ${actualSpacing * 2.5}px)
           `,
         }}
       />
