@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Box } from '@mantine/core';
 import { CameraView } from './components/CameraView';
 import { OverlayImage } from './components/OverlayImage';
@@ -11,10 +11,20 @@ function App() {
   const [scale, setScale] = useState<number>(1.0);
   const [rotation, setRotation] = useState<number>(0);
   const [cameraZoom, setCameraZoom] = useState<number>(1.0);
+  const [cameras, setCameras] = useState<MediaDeviceInfo[]>([]);
+  const [selectedCameraId, setSelectedCameraId] = useState<string | null>(null);
+
+  const handleDevicesFetched = useCallback((devices: MediaDeviceInfo[]) => {
+    setCameras(devices);
+  }, []);
 
   return (
     <Box style={{ position: 'relative', width: '100%', height: '100vh', overflow: 'hidden' }}>
-      <CameraView zoom={cameraZoom} />
+      <CameraView
+        zoom={cameraZoom}
+        deviceId={selectedCameraId}
+        onDevicesFetched={handleDevicesFetched}
+      />
       {overlayImageSrc && (
         <OverlayImage
           src={overlayImageSrc}
@@ -36,6 +46,9 @@ function App() {
         onRotationChange={setRotation}
         cameraZoom={cameraZoom}
         onCameraZoomChange={setCameraZoom}
+        cameras={cameras}
+        selectedCameraId={selectedCameraId}
+        onCameraChange={setSelectedCameraId}
       />
     </Box>
   );

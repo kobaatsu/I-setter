@@ -6,6 +6,7 @@ import {
   FileButton,
   Grid,
   Group,
+  Select,
   Slider,
   Text,
 } from '@mantine/core';
@@ -38,6 +39,9 @@ interface ControlPanelProps {
   onRotationChange: React.Dispatch<React.SetStateAction<number>>;
   cameraZoom: number;
   onCameraZoomChange: (zoom: number) => void;
+  cameras: MediaDeviceInfo[];
+  selectedCameraId: string | null;
+  onCameraChange: (deviceId: string | null) => void;
 }
 
 export const ControlPanel = ({
@@ -51,6 +55,9 @@ export const ControlPanel = ({
   onRotationChange,
   cameraZoom,
   onCameraZoomChange,
+  cameras,
+  selectedCameraId,
+  onCameraChange,
 }: ControlPanelProps) => {
   const [isOpen, setIsOpen] = useState(true);
 
@@ -302,9 +309,29 @@ export const ControlPanel = ({
 
           {/* カメラの操作エリア */}
           <Box pb="xs" px="md">
+            {cameras.length > 0 && (
+              <Box mb="sm">
+                <Text c="white" size="xs" mb={4}>
+                  <IconCamera size={14} style={{ verticalAlign: 'middle', marginRight: '4px' }} />
+                  使用するカメラ
+                </Text>
+                <Select
+                  size="xs"
+                  data={cameras.map((c) => ({
+                    value: c.deviceId,
+                    label: c.label || 'Unknown Camera',
+                  }))}
+                  value={selectedCameraId || ''}
+                  onChange={(val) => onCameraChange(val)}
+                  placeholder="カメラを選択"
+                  comboboxProps={{ withinPortal: true }}
+                />
+              </Box>
+            )}
+
             <Group justify="space-between" mb={4}>
               <Text c="white" size="xs">
-                <IconCamera size={14} style={{ verticalAlign: 'middle', marginRight: '4px' }} />
+                <IconZoomIn size={14} style={{ verticalAlign: 'middle', marginRight: '4px' }} />
                 カメラズーム
               </Text>
               <Text c="dimmed" size="xs">
