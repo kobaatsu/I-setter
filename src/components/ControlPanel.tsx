@@ -37,8 +37,6 @@ interface ControlPanelProps {
   scale: number;
   onScaleChange: (scale: number) => void;
   onRotationChange: React.Dispatch<React.SetStateAction<number>>;
-  cameraZoom: number;
-  onCameraZoomChange: (zoom: number) => void;
   cameras: MediaDeviceInfo[];
   selectedCameraId: string | null;
   onCameraChange: (deviceId: string | null) => void;
@@ -53,8 +51,6 @@ export const ControlPanel = ({
   scale,
   onScaleChange,
   onRotationChange,
-  cameraZoom,
-  onCameraZoomChange,
   cameras,
   selectedCameraId,
   onCameraChange,
@@ -330,25 +326,6 @@ export const ControlPanel = ({
                 />
               </Box>
             )}
-
-            <Group justify="space-between" mb={4}>
-              <Text c="white" size="xs">
-                <IconZoomIn size={14} style={{ verticalAlign: 'middle', marginRight: '4px' }} />
-                カメラズーム
-              </Text>
-              <Text c="dimmed" size="xs">
-                {cameraZoom.toFixed(1)}x
-              </Text>
-            </Group>
-            <Slider
-              color="teal"
-              value={cameraZoom}
-              onChange={onCameraZoomChange}
-              min={1.0}
-              max={3.0}
-              step={0.1}
-              label={null}
-            />
           </Box>
         </Box>
       </Collapse>

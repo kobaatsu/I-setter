@@ -15,8 +15,6 @@ describe('ControlPanel Component', () => {
           scale={1.0}
           onScaleChange={() => {}}
           onRotationChange={() => {}}
-          cameraZoom={1.0}
-          onCameraZoomChange={() => {}}
           cameras={[]}
           selectedCameraId={null}
           onCameraChange={() => {}}
